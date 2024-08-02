@@ -3,7 +3,8 @@ from pygame import *
 
 WINDOW_SIZE = (700, 500)
 SPRITE_SIZE = (50, 50)
-
+speed_x = 3
+speed_y = 3
 FPS = 60
 
 class GameSprite(sprite.Sprite):
@@ -50,6 +51,15 @@ while game:
         window.fill((0, 0, 255))
         rocket_1.update_l()
         rocket_2.update_r()
+        ball.rect.x += speed_x
+        ball.rect.y += speed_y
+        if ball.rect.y < 0 or ball.rect.y > WINDOW_SIZE[1] - 50:
+            speed_y *= -1
+        if sprite.collide_rect(rocket_1, ball) or sprite.collide_rect(rocket_2, ball):
+            speed_x *= -1
+
+
+
         rocket_1.reset()
         rocket_2.reset()
         ball.reset()
