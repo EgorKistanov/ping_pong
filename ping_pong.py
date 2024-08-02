@@ -18,7 +18,18 @@ class GameSprite(sprite.Sprite):
         window.blit(self.image, (self.rect.x, self.rect.y))
 
 class Player(GameSprite):
-    ...
+    def update_r(self):
+        keys = key.get_pressed()
+        if keys[K_UP] and self.rect.y > 5:
+            self.rect.y -= self.speed
+        if keys[K_DOWN] and self.rect.y < WINDOW_SIZE[1] - 105:
+            self.rect.y += self.speed
+    def update_l(self):
+        keys = key.get_pressed()
+        if keys[K_w] and self.rect.y > 5:
+            self.rect.y -= self.speed
+        if keys[K_s] and self.rect.y < WINDOW_SIZE[1] - 105:
+            self.rect.y += self.speed
 
 window = display.set_mode(WINDOW_SIZE)
 display.set_caption('Ping-pong')
@@ -35,8 +46,13 @@ while game:
     for e in event.get():
         if e.type == QUIT:
             game = False
-    rocket_1.reset()
-    rocket_2.reset()
-    ball.reset()
+    if not finish:
+        window.fill((0, 0, 255))
+        rocket_1.update_l()
+        rocket_2.update_r()
+        rocket_1.reset()
+        rocket_2.reset()
+        ball.reset()
+
     display.update()
     clock.tick(FPS)
